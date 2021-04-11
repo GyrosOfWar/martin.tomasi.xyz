@@ -1,5 +1,12 @@
-import tw from "twin.macro"
+import tw, {styled} from "twin.macro"
 
-const Layout = tw.main`container ml-auto mr-auto px-2 flex flex-col items-center`
+interface Props {
+  centered?: boolean
+}
+
+const Layout = styled.main<Props>(({centered}) => [
+    tw`container ml-auto mr-auto px-2 flex flex-col`,
+    centered && tw`items-center`
+])
 
 export default Layout

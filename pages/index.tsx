@@ -44,7 +44,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
+      <Layout centered>
         <div css={tw`my-4`}>
           <h1 css={tw`text-4xl font-bold`}>Martin Tomasi</h1>
         </div>
