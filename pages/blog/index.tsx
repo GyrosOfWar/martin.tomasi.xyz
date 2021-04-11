@@ -2,22 +2,26 @@ import Head from "next/head"
 import tw from "twin.macro"
 import Layout from "../../components/Layout"
 import Link from "next/link"
+import createBlogApi, {BlogPost} from "../../lib/blog-api"
+import {GetStaticProps} from "next"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faCaretLeft} from "@fortawesome/free-solid-svg-icons"
 
-const loremIpsum =
-  "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+  const blogApi = await createBlogApi()
+  const posts = blogApi.getAllPosts()
+  return {
+    props: {
+      posts,
+    },
+  }
+}
 
-const posts = [
-  {
-    title: "A sample blog post",
-    content: loremIpsum,
-  },
-  {
-    title: "A second blog post",
-    content: loremIpsum,
-  },
-]
+interface Props {
+  posts: BlogPost[]
+}
 
-const Blog: React.FC = () => {
+const Blog: React.FC<Props> = ({posts}) => {
   return (
     <>
       <Head>
@@ -27,7 +31,9 @@ const Blog: React.FC = () => {
       <Layout>
         <div css={tw`my-4 flex items-center justify-between`}>
           <Link href="/">
-            <a css={tw`text-blue-400 hocus:text-blue-500`}>&lt; Home</a>
+            <a css={tw`text-blue-400 hocus:text-blue-500 cursor-pointer`}>
+              <FontAwesomeIcon icon={faCaretLeft} /> Home
+            </a>
           </Link>
           <h1 css={tw`text-4xl font-bold`}>Blog</h1>
           <span />
@@ -35,9 +41,10 @@ const Blog: React.FC = () => {
 
         <div css={tw`flex flex-col items-center`}>
           {posts.map((post) => (
-            <article css={tw`prose mb-4`}>
+            <article css={tw`mb-4 max-w-none prose`}>
               <h2 css={tw`font-bold text-lg`}>{post.title}</h2>
-              <p>{post.content}</p>
+              <span css={tw`text-gray-400`}>Created on {post.createdOn}</span>
+              <p dangerouslySetInnerHTML={{__html: post.content}} />
             </article>
           ))}
         </div>
