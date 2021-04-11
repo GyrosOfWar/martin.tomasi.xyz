@@ -4,9 +4,9 @@ interface Props {
   centered?: boolean
 }
 
-const Layout = styled.main<Props>(({centered}) => [
+const MainSection = styled.main<Props>(({centered}) => [
   tw`container ml-auto mr-auto px-2 flex flex-col`,
   centered && tw`items-center`,
 ])
 
-export default Layout
+export default MainSection

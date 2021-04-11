@@ -8,12 +8,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faCaretLeft} from "@fortawesome/free-solid-svg-icons"
 import {formatRelative, parseISO} from "date-fns"
 
-const RelativeDate: React.FC<{date: string}> = ({date}) => {
-  const parsed = parseISO(date)
-  const now = Date.now()
-  return <time dateTime={date}>{formatRelative(parsed, now)}</time>
-}
-
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const blogApi = await createBlogApi()
   const posts = blogApi.getAllPosts()
@@ -23,6 +17,26 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     },
   }
 }
+
+const RelativeDate: React.FC<{date: string}> = ({date}) => {
+  const parsed = parseISO(date)
+  const now = Date.now()
+  return <time dateTime={date}>{formatRelative(parsed, now)}</time>
+}
+
+const BlogPreview: React.FC<{post: BlogPost}> = ({post}) => (
+  <article key={post.id} css={tw`mb-4`}>
+    <h2 css={tw`font-bold text-xl hocus:text-gray-300`}>
+      <Link href={`/blog/${post.slug}`}>
+        <a>{post.title}</a>
+      </Link>
+    </h2>
+    <span css={tw`text-gray-400`}>
+      Created <RelativeDate date={post.createdOn} />
+    </span>
+    <div>{post.preview}&#8230;</div>
+  </article>
+)
 
 interface Props {
   posts: BlogPost[]
@@ -46,15 +60,9 @@ const Blog: React.FC<Props> = ({posts}) => {
           <span />
         </div>
 
-        <div css={tw`flex flex-col items-center`}>
+        <div css={tw`flex flex-col`}>
           {posts.map((post) => (
-            <article key={post.id} css={tw`mb-4 prose dark:prose-light`}>
-              <h2 css={tw`font-bold text-lg`}>{post.title}</h2>
-              <span css={tw`text-gray-400`}>
-                Created <RelativeDate date={post.createdOn} />
-              </span>
-              <div dangerouslySetInnerHTML={{__html: post.content}} />
-            </article>
+            <BlogPreview post={post} key={post.id} />
           ))}
         </div>
       </Layout>

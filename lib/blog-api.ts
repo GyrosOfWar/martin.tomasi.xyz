@@ -12,27 +12,38 @@ export interface BlogPost {
   content: string
   id: number
   title: string
+  preview: string
 }
 
-async function loadPost(path: string): Promise<BlogPost> {
-  const string = await fs.readFile(path, "utf-8")
+function getPostPreview(markdown: string): string {
+  const words = markdown.split(/\s+/).filter((c) => c.trim().length > 0)
+  return  words.slice(0, 25).join(" ")
+}
+
+async function loadPost(filePath: string): Promise<BlogPost> {
+  const string = await fs.readFile(filePath, "utf-8")
   const {data, content: markdown} = matter(string)
   const content = await remark().use(html).process(markdown)
+  const preview = getPostPreview(markdown)
+  const slug = path.basename(filePath).replace(".md", "")
+
   return {
     createdOn: data.createdOn,
     id: data.id,
     title: data.title,
-    slug: path.replace(".md", ""),
     content: content.toString(),
+    slug,
+    preview,
   }
 }
 
 async function loadPosts(): Promise<BlogPost[]> {
   const files = await fs.readdir(postDirectory)
-
-  return Promise.all(
+  const posts = await Promise.all(
     files.map((fileName) => loadPost(path.join(postDirectory, fileName)))
   )
+  posts.sort((p1, p2) => p2.createdOn.localeCompare(p1.createdOn))
+  return posts
 }
 
 class BlogApi {

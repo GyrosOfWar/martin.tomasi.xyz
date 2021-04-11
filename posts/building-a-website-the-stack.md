@@ -1,7 +1,7 @@
 ---
 createdOn: "2021-04-11T12:33:15.869Z"
 id: 0
-title: Building a personal website
+title: "Building a personal website: The Stack"
 ---
 
 I'm starting this blog with a bit of dogfooding (i.e. writing about the process of setting up this website). I was considering using a static site generator
