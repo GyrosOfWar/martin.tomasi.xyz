@@ -19,6 +19,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@tailwindcss/typography": "^0.4.0",
+    "date-fns": "^2.20.1",
     "gray-matter": "^4.0.2",
     "lunr": "^2.3.9",
     "next": "10.0.5",

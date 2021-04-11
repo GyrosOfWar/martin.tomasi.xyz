@@ -9,7 +9,7 @@ import Head from "next/head"
 import tw from "twin.macro"
 import Link from "next/link"
 import Layout from "../components/Layout"
-import { faBlog, faQuoteRight } from "@fortawesome/free-solid-svg-icons"
+import {faQuoteRight} from "@fortawesome/free-solid-svg-icons"
 
 const linkData = [
   {

@@ -6,8 +6,15 @@ import createBlogApi, {BlogPost} from "../../lib/blog-api"
 import {GetStaticProps} from "next"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faCaretLeft} from "@fortawesome/free-solid-svg-icons"
+import {formatRelative, parseISO} from "date-fns"
 
-export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+const RelativeDate: React.FC<{date: string}> = ({date}) => {
+  const parsed = parseISO(date)
+  const now = Date.now()
+  return <time dateTime={date}>{formatRelative(parsed, now)}</time>
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const blogApi = await createBlogApi()
   const posts = blogApi.getAllPosts()
   return {
@@ -41,9 +48,11 @@ const Blog: React.FC<Props> = ({posts}) => {
 
         <div css={tw`flex flex-col items-center`}>
           {posts.map((post) => (
-            <article key={post.id} css={tw`mb-4 prose`}>
+            <article key={post.id} css={tw`mb-4 prose dark:prose-light`}>
               <h2 css={tw`font-bold text-lg`}>{post.title}</h2>
-              <span css={tw`text-gray-400`}>Created on {post.createdOn}</span>
+              <span css={tw`text-gray-400`}>
+                Created <RelativeDate date={post.createdOn} />
+              </span>
               <div dangerouslySetInnerHTML={{__html: post.content}} />
             </article>
           ))}

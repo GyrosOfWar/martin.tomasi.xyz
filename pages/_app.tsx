@@ -6,13 +6,13 @@ import {css, Global} from "@emotion/react"
 const App = ({Component, pageProps}: AppProps) => (
   <div>
     <GlobalStyles />
-    {/* <Global
+    <Global
       styles={css`
         body {
-          ${tw`dark:(bg-gray-900 text-white)`}
+          ${tw`dark:(bg-gray-900 text-gray-50)`}
         }
       `}
-    /> */}
+    />
     <Component {...pageProps} />
   </div>
 )
