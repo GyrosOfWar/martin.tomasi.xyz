@@ -41,10 +41,10 @@ const Blog: React.FC<Props> = ({posts}) => {
 
         <div css={tw`flex flex-col items-center`}>
           {posts.map((post) => (
-            <article css={tw`mb-4 max-w-none prose`}>
+            <article key={post.id} css={tw`mb-4 prose`}>
               <h2 css={tw`font-bold text-lg`}>{post.title}</h2>
               <span css={tw`text-gray-400`}>Created on {post.createdOn}</span>
-              <p dangerouslySetInnerHTML={{__html: post.content}} />
+              <div dangerouslySetInnerHTML={{__html: post.content}} />
             </article>
           ))}
         </div>
