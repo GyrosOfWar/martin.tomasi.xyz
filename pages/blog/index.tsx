@@ -27,12 +27,12 @@ const RelativeDate: React.FC<{date: string}> = ({date}) => {
 const BlogPreview: React.FC<{post: BlogPost}> = ({post}) => (
   <article key={post.id} css={tw`mb-4`}>
     <h2 css={tw`font-bold text-xl hocus:text-gray-300`}>
-      <Link href={`/blog/${post.slug}`}>
-        <a>{post.title}</a>
+      <Link passHref href={`/blog/${post.slug}`}>
+        <a tw="underline">{post.title}</a>
       </Link>
     </h2>
     <span css={tw`text-gray-400`}>
-      Created <RelativeDate date={post.createdOn} />
+      <RelativeDate date={post.createdOn} />
     </span>
     <div>{post.preview}&#8230;</div>
   </article>
