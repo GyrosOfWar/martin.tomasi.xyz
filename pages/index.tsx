@@ -34,9 +34,9 @@ const linkData = [
   },
 ]
 
-const ExternalLink = tw.a`text-blue-400 p-2 w-full text-center 
-  hocus:(bg-blue-400 text-white) transition border 
-  border-blue-400 flex justify-between items-center`
+const ExternalLink = tw.a`text-orange-400 p-2 w-full text-center 
+  hocus:(bg-orange-400 text-white) transition border 
+  border-orange-400 flex justify-between items-center`
 
 export default function Home() {
   return (
